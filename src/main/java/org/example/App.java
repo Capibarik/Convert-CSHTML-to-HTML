@@ -1,9 +1,9 @@
 /*
-* TODO:
-*  1. Найти cshtml-файл, который нужно транслировать в html-файл
-*  2. Найти файл _Layout.cshtml
-*  3. Соединить файлы _Layout.cshtml и cshtml-файл, который нужно транслировать, в html-файл
-* */
+ * TODO:
+ *  1. Найти cshtml-файл, который нужно транслировать в html-файл
+ *  2. Найти файл _Layout.cshtml
+ *  3. Соединить файлы _Layout.cshtml и cshtml-файл, который нужно транслировать, в html-файл
+ * */
 
 package org.example;
 
@@ -16,54 +16,122 @@ public class App {
             throws FileNotFoundException {
         Scanner in = new Scanner(System.in);
         String project_path = read(in, "Введите путь до ASP.NET-проекта: ");
-        String project_name = getNameOfProject(project_path, ".sln");
-        String project_folder_name = getOnlyFileName(project_name, ".sln");
-        String cshtml_file_name = read(in, "Введите название cshtml-файла (без расширения): ");
-        String cshtml_file_path = getFile(project_path, project_folder_name, cshtml_file_name + ".cshtml");
+        String project_folder_name = getFolderPath(project_path, ".sln");
+        System.out.println(project_folder_name);
+        String cshtml_file_name = read(in, "Введите полное название cshtml-файла: ");
+        String cshtml_file_path = getFilePath(project_folder_name + "\\Views", cshtml_file_name);
+        String cshtml_layout_path = getFilePath(project_folder_name + "\\Views", "_Layout.cshtml");
+
     }
 
-    private static String getFile(String project_path, String project_folder_name, String file_name)
-            throws FileNotFoundException {
-        return getNameOfProject(project_path + "\\" + project_folder_name + "\\Views", file_name);
-    }
-
+    /**
+     * Метод, который считывает и возвращает данные, введенные пользователем
+     * @param in объект {@link Scanner} для считывания данных из консоли
+     * @param message сообщения, которое просит пользователя ввести данные
+     * @return возвращает строку - данные введенные пользователем
+     */
     public static String read(Scanner in, String message) {
         System.out.print(message);
         return in.nextLine();
     }
-    public static String getNameOfProject(String project_path, String filename_filter)
+
+    /**
+     * Метод по двум параметрам: абсолютному пути папки и имени файла,- ищет внутри исходной директории файл с именем {@code file_name} и возвращает путь до ПАПКИ с таким же именем, что и у искомого файла.
+     * Например, в папке {@code C:\Folder1} нужно найти файл с именем {@code File2.file} (этот файл может находиться в подпапках), тогда метод может вернуть следующий абсолютный путь:
+     * {@code C:\Folder1\Folder2\Folder3\File2}
+     *
+     * @param folder_path имя папки, в которой будет происходить поиск файла {@code file_name}
+     * @param file_name   искомый файл
+     * @return возвращается абсолютный путь до файла без расширения (т. е. папку)
+     * @throws FileNotFoundException исключение выбрасывается в таких же случаях, как и в {@link #getFilePath}
+     */
+    public static String getFolderPath(String folder_path, String file_name)
             throws FileNotFoundException {
-        File project_folder = new File(project_path);
-        if (!project_folder.exists())
-            throw new FileNotFoundException("Папка проекта не найдена");
-        else if (project_folder.isFile())
-            throw new FileNotFoundException("Был передан файл вместо папки проекта");
-        String project_name = searchingForNameOfProject(project_folder, filename_filter);
-        if (project_name == null)
-            throw new FileNotFoundException("Файл с расширением " + filename_filter + " не был найден");
-        return project_name;
+        String extension = getExtension(file_name);
+        return stringsSubtract(
+                getFilePath(folder_path, file_name),
+                extension);
     }
-    public static String searchingForNameOfProject(File start_file, String filename_filter) {
+
+    /**
+     * Метод на основе двух параметров: абсолютного пути до папки и шаблона имени файла,- находит абсолютный путь первого файла, подошедшего под заданный шаблон
+     *
+     * @param folder_path     абсолютный путь до папки
+     * @param filename_filter шаблон для поиска файла по нему (например, при ".sln" найдется первый попавшийся файл с расширением ".sln")
+     * @return возвращается абсолютный путь до файла
+     * @throws FileNotFoundException исключение выбрасывается, когда:
+     *                               не найдена папка,
+     *                               вместо папки был передан файл,
+     *                               файл по шаблону {@code filename_filter} не был найден
+     */
+    public static String getFilePath(String folder_path, String filename_filter)
+            throws FileNotFoundException {
+        File project_folder = new File(folder_path);
+        if (!project_folder.exists())
+            throw new FileNotFoundException("Папка не найдена");
+        else if (project_folder.isFile())
+            throw new FileNotFoundException("Был передан файл вместо папки");
+        String project_file_path = searchingForPathOfProject(project_folder, filename_filter);
+        if (project_file_path.isEmpty())
+            throw new FileNotFoundException("Файл не был найден");
+        return project_file_path;
+    }
+
+    /**
+     * Рекурсивный метод, который использует DFS для поиска первого файла, подошедшего под шаблон {@code filename_filter}
+     *
+     * @param start_file      директория, в которой будет производиться поиск
+     * @param filename_filter заданный шаблон
+     * @return возвращается абсолютный путь до найденного файла, если такой существует, иначе пустая строка
+     */
+    public static String searchingForPathOfProject(File start_file, String filename_filter) {
         File[] list_files = start_file.listFiles();
         if (list_files != null) {
-            for (File inner_file: list_files) {
+            for (File inner_file : list_files) {
                 if (inner_file.isFile()) {
                     String file_name = inner_file.getName();
                     if (file_name.endsWith(filename_filter))
-                        return file_name;
-                }
-                else {
-                    String result = searchingForNameOfProject(inner_file, filename_filter);
-                    if (result != null)
+                        return inner_file.getAbsolutePath();
+                } else {
+                    String result = searchingForPathOfProject(inner_file, filename_filter);
+                    if (!result.isEmpty())
                         return result;
                 }
             }
         }
-        return null;
+        return "";
     }
-    public static String getOnlyFileName(String file_name, String extension) {
-        int diff = file_name.length() - extension.length();
+
+    /**
+     * Метод для осуществления вычитания строк
+     *
+     * @param s1 строка, из которой будет вычитаться строка {@code s2}
+     * @param s2 строка, которая будет вычитаться из строки {@code s1}
+     * @return возвращается разность строк {@code s1} и {@code s2}
+     */
+    public static String stringsSubtract(String s1, String s2) {
+        int diff = s1.length() - s2.length();
         if (diff < 0) return "";
-        else return file_name.substring(0, diff);
+        else return s1.substring(0, diff);
+    }
+
+    /**
+     * Метод для получения расширения файла
+     *
+     * @param file_path строка (абсолютный путь, относительный путь, имя файла и т. п.)
+     * @return строка без расширения файла
+     */
+    public static String getExtension(String file_path) {
+        StringBuffer extension = new StringBuffer();
+        for (int i = file_path.length() - 1; i >= 0; i--) {
+            char ch = file_path.charAt(i);
+            extension.append(ch);
+            if (ch == '.') {
+                extension.reverse();
+                return extension.toString();
+            } else if (ch == '\\')
+                return "";
+        }
+        return "";
     }
 }
