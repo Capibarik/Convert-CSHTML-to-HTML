@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/.idea/output-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Translate CSHTML to HTML/output-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Translate-CSHTML-to-HTML/output-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/output-resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/output-files" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/output-resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/test/resources/LaunchHTMLTest" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/resources/TranslateToHTMLTest" charset="UTF-8" />
   </component>
 </project>

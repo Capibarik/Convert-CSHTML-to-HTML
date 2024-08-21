@@ -23,6 +23,20 @@
     </dependency>
   </dependencies>
     <build>
+        <resources>
+            <resource>
+                <directory>src\output-files</directory>
+            </resource>
+            <resource>
+                <directory>src\main\resources</directory>
+            </resource>
+            <resource>
+                <directory>src\test\resources\TranslateToHTMLTest</directory>
+            </resource>
+            <resource>
+                <directory>src\test\resources\LaunchHTMLTest</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -33,10 +47,5 @@
                 </configuration>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src\test\resources\TranslateToHTMLTest</directory>
-            </resource>
-        </resources>
     </build>
 </project>
