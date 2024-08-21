@@ -1,40 +1,12 @@
-/*
- * TODO:
- *  1. Найти cshtml-файл, который нужно транслировать в html-файл
- *  2. Найти файл _Layout.cshtml
- *  3. Соединить файлы _Layout.cshtml и cshtml-файл, который нужно транслировать, в html-файл
- * */
-
 package org.example;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
 
-public class App {
-    public static void main(String[] args)
-            throws FileNotFoundException {
-        Scanner in = new Scanner(System.in);
-        String project_path = read(in, "Введите путь до ASP.NET-проекта: ");
-        String project_folder_name = getFolderPath(project_path, ".sln");
-        System.out.println(project_folder_name);
-        String cshtml_file_name = read(in, "Введите полное название cshtml-файла: ");
-        String cshtml_file_path = getFilePath(project_folder_name + "\\Views", cshtml_file_name);
-        String cshtml_layout_path = getFilePath(project_folder_name + "\\Views", "_Layout.cshtml");
-
-    }
-
-    /**
-     * Метод, который считывает и возвращает данные, введенные пользователем
-     * @param in объект {@link Scanner} для считывания данных из консоли
-     * @param message сообщения, которое просит пользователя ввести данные
-     * @return возвращает строку - данные введенные пользователем
-     */
-    public static String read(Scanner in, String message) {
-        System.out.print(message);
-        return in.nextLine();
-    }
-
+/**
+ * Класс со статическими методами для поиска cshtml-файлов
+ */
+public class SearchCSHTML {
     /**
      * Метод по двум параметрам: абсолютному пути папки и имени файла,- ищет внутри исходной директории файл с именем {@code file_name} и возвращает путь до ПАПКИ с таким же именем, что и у искомого файла.
      * Например, в папке {@code C:\Folder1} нужно найти файл с именем {@code File2.file} (этот файл может находиться в подпапках), тогда метод может вернуть следующий абсолютный путь:
@@ -42,7 +14,7 @@ public class App {
      *
      * @param folder_path имя папки, в которой будет происходить поиск файла {@code file_name}
      * @param file_name   искомый файл
-     * @return возвращается абсолютный путь до файла без расширения (т. е. папку)
+     * @return абсолютный путь до файла без расширения (т. е. папку)
      * @throws FileNotFoundException исключение выбрасывается в таких же случаях, как и в {@link #getFilePath}
      */
     public static String getFolderPath(String folder_path, String file_name)
@@ -58,7 +30,7 @@ public class App {
      *
      * @param folder_path     абсолютный путь до папки
      * @param filename_filter шаблон для поиска файла по нему (например, при ".sln" найдется первый попавшийся файл с расширением ".sln")
-     * @return возвращается абсолютный путь до файла
+     * @return абсолютный путь до файла
      * @throws FileNotFoundException исключение выбрасывается, когда:
      *                               не найдена папка,
      *                               вместо папки был передан файл,
@@ -82,7 +54,7 @@ public class App {
      *
      * @param start_file      директория, в которой будет производиться поиск
      * @param filename_filter заданный шаблон
-     * @return возвращается абсолютный путь до найденного файла, если такой существует, иначе пустая строка
+     * @return абсолютный путь до найденного файла, если такой существует, иначе пустая строка
      */
     public static String searchingForPathOfProject(File start_file, String filename_filter) {
         File[] list_files = start_file.listFiles();
@@ -107,7 +79,7 @@ public class App {
      *
      * @param s1 строка, из которой будет вычитаться строка {@code s2}
      * @param s2 строка, которая будет вычитаться из строки {@code s1}
-     * @return возвращается разность строк {@code s1} и {@code s2}
+     * @return разность строк {@code s1} и {@code s2}
      */
     public static String stringsSubtract(String s1, String s2) {
         int diff = s1.length() - s2.length();
@@ -117,9 +89,8 @@ public class App {
 
     /**
      * Метод для получения расширения файла
-     *
      * @param file_path строка (абсолютный путь, относительный путь, имя файла и т. п.)
-     * @return строка без расширения файла
+     * @return расширение файла, если оно есть, иначе пустая строка
      */
     public static String getExtension(String file_path) {
         StringBuffer extension = new StringBuffer();
@@ -131,6 +102,7 @@ public class App {
                 return extension.toString();
             } else if (ch == '\\')
                 return "";
+
         }
         return "";
     }

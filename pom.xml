@@ -18,7 +18,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>5.8.2</version> <!-- Версия может быть другой, актуальную версию смотрите на сайте JUnit -->
+      <version>5.8.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -33,5 +33,10 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src\test\resources\TranslateToHTMLTest</directory>
+            </resource>
+        </resources>
     </build>
 </project>
