@@ -2,7 +2,6 @@ package org.example;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.Scanner;
 
 public class LaunchHTML {
@@ -23,7 +22,8 @@ public class LaunchHTML {
         String cshtml_layout_path = SearchCSHTML.getFilePath(project_folder_path + "\\Views", "_Layout.cshtml");
         return new String[]{cshtml_layout_path, cshtml_file_path, output_folder_path};
     }
-    private static String translation(String[] files_for_translation) {
+    private static String translation(String[] files_for_translation)
+            throws FileNotFoundException {
         String layout = files_for_translation[0];
         String file_body = files_for_translation[1];
         String output_folder_path = files_for_translation[2];
@@ -31,6 +31,11 @@ public class LaunchHTML {
         return path_to_file;
     }
     private static void execute(String path_to_file) {
-        System.out.println("Execute " + path_to_file);
+        if (!path_to_file.isEmpty()) {
+            System.out.println("Запускается файл " + path_to_file);
+        }
+        else {
+            System.out.println("html-файл не был создан");
+        }
     }
 }

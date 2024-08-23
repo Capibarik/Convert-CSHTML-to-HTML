@@ -12,5 +12,6 @@
     <file url="file://$PROJECT_DIR$/src/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/resources/LaunchHTMLTest" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/resources/TranslateToHTMLTest" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/test/resources/TranslateToHTMLTest/testWriteNewHTMLFile" charset="UTF-8" />
   </component>
 </project>
