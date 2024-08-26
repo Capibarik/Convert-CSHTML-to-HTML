@@ -31,11 +31,7 @@ public class LaunchHTML {
         return path_to_file;
     }
     private static void execute(String path_to_file) {
-        if (!path_to_file.isEmpty()) {
-            System.out.println("Запускается файл " + path_to_file);
-        }
-        else {
-            System.out.println("html-файл не был создан");
-        }
+        if (!path_to_file.isEmpty()) System.out.println("Запускается файл " + path_to_file);
+        else System.out.println("HTML-файл пуст");
     }
 }

@@ -1,13 +1,12 @@
 package org.example;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Test;
 import utility.TestUtilities;
 
-import java.io.File;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,6 +25,7 @@ public class TranslateToHTMLTest {
         assertEquals("G:\\Жесткий диск\\ВУЗ ИГУ\\1 КУРС\\ВЕБ-ТЕХНОЛОГИИ\\Повторение\\Translate CSHTML to HTML\\src\\test\\resources\\TranslateToHTMLTest\\testCreateEmptyHTMLFile\\out\\_Layout+About.html", TranslateToHTML.createEmptyHTMLFile(layout_path, path_1, output_folder_path));
         assertEquals("G:\\Жесткий диск\\ВУЗ ИГУ\\1 КУРС\\ВЕБ-ТЕХНОЛОГИИ\\Повторение\\Translate CSHTML to HTML\\src\\test\\resources\\TranslateToHTMLTest\\testCreateEmptyHTMLFile\\out\\_Layout+Home.html", TranslateToHTML.createEmptyHTMLFile(layout_path, path_2, output_folder_path));
         assertEquals("G:\\Жесткий диск\\ВУЗ ИГУ\\1 КУРС\\ВЕБ-ТЕХНОЛОГИИ\\Повторение\\Translate CSHTML to HTML\\src\\test\\resources\\TranslateToHTMLTest\\testCreateEmptyHTMLFile\\out\\_Layout+Contact.html", TranslateToHTML.createEmptyHTMLFile(layout_path, path_3, output_folder_path));
+        assertThrows(RuntimeException.class, () -> TranslateToHTML.createEmptyHTMLFile("it", "does not", "exist"));
     }
 
     @Test
@@ -41,11 +41,11 @@ public class TranslateToHTMLTest {
         String path2_created_comparable = TranslateToHTML.createEmptyHTMLFile(layout_path, target_path2, out_folder_path);
         TranslateToHTML.writeNewHTMLFile(layout_path, target_path1, path1_created_comparable);
         TranslateToHTML.writeNewHTMLFile(layout_path, target_path2, path2_created_comparable);
-        assertEquals(-1, Files.mismatch(Paths.get(path1_test_comparable), Paths.get(path1_created_comparable)));
-        assertNotEquals(-1, Files.mismatch(Paths.get(path2_test_comparable), Paths.get(path2_created_comparable)));
+        assertEquals(true, TestUtilities.compareHTMLFiles(path1_test_comparable, path1_created_comparable, false));
+        assertEquals(true, TestUtilities.compareHTMLFiles(path2_test_comparable, path2_created_comparable, false));
     }
 
-    @AfterAll
+    // @AfterAll
     public static void clearOutFolder() {
         TestUtilities.clearFolder(
                 "G:\\Жесткий диск\\ВУЗ ИГУ\\1 КУРС\\ВЕБ-ТЕХНОЛОГИИ\\Повторение\\Translate CSHTML to HTML\\src\\test\\resources\\TranslateToHTMLTest\\testCreateEmptyHTMLFile\\out",
