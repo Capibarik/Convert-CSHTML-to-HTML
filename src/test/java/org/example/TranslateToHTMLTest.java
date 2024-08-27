@@ -6,8 +6,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,15 +39,18 @@ public class TranslateToHTMLTest {
         String path2_created_comparable = TranslateToHTML.createEmptyHTMLFile(layout_path, target_path2, out_folder_path);
         TranslateToHTML.writeNewHTMLFile(layout_path, target_path1, path1_created_comparable);
         TranslateToHTML.writeNewHTMLFile(layout_path, target_path2, path2_created_comparable);
-        assertEquals(true, TestUtilities.compareHTMLFiles(path1_test_comparable, path1_created_comparable, false));
-        assertEquals(true, TestUtilities.compareHTMLFiles(path2_test_comparable, path2_created_comparable, false));
+        assertTrue(TestUtilities.compareFiles(path1_test_comparable, path1_created_comparable, false));
+        assertTrue(TestUtilities.compareFiles(path2_test_comparable, path2_created_comparable, false));
+        assertFalse(TestUtilities.compareFiles(path1_test_comparable, path1_created_comparable, true));
+        assertFalse(TestUtilities.compareFiles(path2_test_comparable, path2_created_comparable, true));
     }
 
-    // @AfterAll
-    public static void clearOutFolder() {
+    @AfterAll
+    public static void clearOutFolder()
+            throws IOException {
         TestUtilities.clearFolder(
                 "G:\\Жесткий диск\\ВУЗ ИГУ\\1 КУРС\\ВЕБ-ТЕХНОЛОГИИ\\Повторение\\Translate CSHTML to HTML\\src\\test\\resources\\TranslateToHTMLTest\\testCreateEmptyHTMLFile\\out",
-                "Home.html"
+                "_Layout+Home.html"
         );
         TestUtilities.clearFolder(
                 "G:\\Жесткий диск\\ВУЗ ИГУ\\1 КУРС\\ВЕБ-ТЕХНОЛОГИИ\\Повторение\\Translate CSHTML to HTML\\src\\test\\resources\\TranslateToHTMLTest\\testWriteNewHTMLFile\\out"

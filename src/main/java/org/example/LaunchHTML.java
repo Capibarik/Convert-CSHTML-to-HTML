@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import static com.diogonunes.jcolor.Ansi.colorize;
+import static com.diogonunes.jcolor.Attribute.*;
+
 public class LaunchHTML {
     public static void main(String[] args)
             throws FileNotFoundException {
@@ -31,7 +34,7 @@ public class LaunchHTML {
         return path_to_file;
     }
     private static void execute(String path_to_file) {
-        if (!path_to_file.isEmpty()) System.out.println("Запускается файл " + path_to_file);
-        else System.out.println("HTML-файл пуст");
+        if (!path_to_file.isEmpty()) System.out.println(colorize("File has been launched", BRIGHT_BLUE_TEXT()));
+        else System.out.println(colorize("File has NOT been formed", RED_TEXT()));
     }
 }

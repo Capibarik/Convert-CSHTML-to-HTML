@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import static com.diogonunes.jcolor.Ansi.colorize;
+import static com.diogonunes.jcolor.Attribute.*;
+
 public class TranslateToHTML {
     /**
      *
@@ -43,7 +46,7 @@ public class TranslateToHTML {
         try {
             out_file = new File(out_file_path);
             out_file.createNewFile();
-            System.out.println("HTML-файл создан");
+            System.out.println(colorize("Created: ", GREEN_TEXT()) + colorize(out_file_path, ITALIC()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -69,7 +72,10 @@ public class TranslateToHTML {
                 barbecue = new StringBuffer();
             }
         }
-        if (!isLayoutClosed) return false;          // HTML-файл пуст
+        if (!isLayoutClosed) {
+            out_file.close();
+            return false;          // HTML-файл не сформирован
+        }
         Scanner target_scanner = new Scanner(new File(target_path)).useDelimiter("");
         boolean permissionOnWrite = false;
         while (target_scanner.hasNext()) {
@@ -83,7 +89,7 @@ public class TranslateToHTML {
         }
         out_file.print("</body>\n</html>");
         out_file.close();
-        return true;            // HTML-файл сформирован
+        return true;                            // HTML-файл сформирован
     }
 
 }
