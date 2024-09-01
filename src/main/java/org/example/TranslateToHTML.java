@@ -1,9 +1,7 @@
 package org.example;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class TranslateToHTML {
@@ -16,7 +14,7 @@ public class TranslateToHTML {
      * @throws FileNotFoundException
      */
     public static String translateFile(String layout_path, String target_path, String output_folder_path)
-            throws FileNotFoundException {
+            throws IOException {
         String out_file_path = createEmptyHTMLFile(layout_path, target_path, output_folder_path);
         boolean isFileCreated = writeNewHTMLFile(layout_path, target_path, out_file_path);
         if (isFileCreated) return out_file_path;
@@ -51,12 +49,9 @@ public class TranslateToHTML {
     }
 
     public static boolean writeNewHTMLFile(String layout_path, String target_path, String out_file_path)
-            throws FileNotFoundException {
-        System.out.println(layout_path);
-        System.out.println(target_path);
-        System.out.println(out_file_path);
+            throws IOException {
         Scanner layout_scanner = new Scanner(new File(layout_path)).useDelimiter("");
-        PrintWriter out_file = new PrintWriter(out_file_path);
+        PrintWriter out_file = new PrintWriter(out_file_path, StandardCharsets.UTF_8);
         StringBuffer barbecue = new StringBuffer();
         String c;
         boolean isLayoutClosed = false;
@@ -76,7 +71,7 @@ public class TranslateToHTML {
             out_file.close();
             return false;          // HTML-файл не сформирован
         }
-        Scanner target_scanner = new Scanner(new File(target_path)).useDelimiter("");
+        Scanner target_scanner = new Scanner(new File(target_path), StandardCharsets.UTF_8).useDelimiter("");
         boolean permissionOnWrite = false;
         while (target_scanner.hasNext()) {
             c = target_scanner.next();
@@ -91,5 +86,4 @@ public class TranslateToHTML {
         out_file.close();
         return true;                            // HTML-файл сформирован
     }
-
 }

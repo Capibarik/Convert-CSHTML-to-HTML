@@ -54,7 +54,7 @@ public class LaunchHTML {
     }
 
     private static String translation(String[] files_for_translation)
-            throws FileNotFoundException {
+            throws IOException {
         String layout = files_for_translation[0];
         String file_body = files_for_translation[1];
         String output_folder_path = files_for_translation[2];
