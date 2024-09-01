@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-import static com.diogonunes.jcolor.Ansi.colorize;
-import static com.diogonunes.jcolor.Attribute.*;
-
 public class TranslateToHTML {
     /**
      *
@@ -46,7 +43,7 @@ public class TranslateToHTML {
         try {
             out_file = new File(out_file_path);
             out_file.createNewFile();
-            System.out.println(colorize("Created: ", GREEN_TEXT()) + colorize(out_file_path, ITALIC()));
+            System.out.println("Created: " + out_file_path);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -55,6 +52,9 @@ public class TranslateToHTML {
 
     public static boolean writeNewHTMLFile(String layout_path, String target_path, String out_file_path)
             throws FileNotFoundException {
+        System.out.println(layout_path);
+        System.out.println(target_path);
+        System.out.println(out_file_path);
         Scanner layout_scanner = new Scanner(new File(layout_path)).useDelimiter("");
         PrintWriter out_file = new PrintWriter(out_file_path);
         StringBuffer barbecue = new StringBuffer();

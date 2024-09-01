@@ -1,9 +1,6 @@
 package utility;
 
 
-import static com.diogonunes.jcolor.Ansi.colorize;
-import static com.diogonunes.jcolor.Attribute.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,7 +24,7 @@ public class TestUtilities {
                     if (Collections.binarySearch(name_exceps, inner_file.getName()) < 0) {
                         Files.delete(Paths.get(inner_file.getPath()));
                         System.out.println(
-                                colorize("Delete: ", YELLOW_TEXT()) + colorize(inner_file.getPath(), ITALIC())
+                                "Delete: " + inner_file.getPath()
                         );
                     }
                 }

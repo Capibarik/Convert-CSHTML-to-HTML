@@ -1,19 +1,24 @@
 package org.example;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.Scanner;
 
-import static com.diogonunes.jcolor.Ansi.colorize;
-import static com.diogonunes.jcolor.Attribute.*;
-
 public class LaunchHTML {
     public static void main(String[] args)
             throws IOException {
-        String[] ini_data = readDataIni("G:\\Жесткий диск\\ВУЗ ИГУ\\1 КУРС\\ВЕБ-ТЕХНОЛОГИИ\\Повторение\\Translate CSHTML to HTML\\src\\main\\resources\\config.ini");
+        // Текущий каталог: "Translate CSHTML to HTML"
+        String[] ini_data = readDataIni("config.ini");
         String path_to_file = translation(processedData(ini_data));
-        execute(path_to_file, ini_data[3], ini_data[4]);
+        String application = ini_data[3];
+        boolean isExecuted = Boolean.parseBoolean(ini_data[4]);
+        execute(path_to_file, application, isExecuted);
     }
     @Deprecated
     private static String[] readData(String config_file_path)
@@ -56,15 +61,15 @@ public class LaunchHTML {
         String path_to_file = TranslateToHTML.translateFile(layout, file_body, output_folder_path);
         return path_to_file;
     }
-    private static void execute(String path_to_file, String application, String isExecuted)
+    private static void execute(String path_to_file, String application, boolean isExecuted)
             throws IOException {
         if (!path_to_file.isEmpty()) {
-            if (Boolean.parseBoolean(isExecuted)) {
+            if (isExecuted) {
                 Runtime rt = Runtime.getRuntime();
                 rt.exec("cmd.exe /C start " + application + " \"" + path_to_file + "\"");
-                System.out.println(colorize("File has been launched", BRIGHT_BLUE_TEXT()));
+                System.out.println("File has been launched");
             }
         }
-        else System.out.println(colorize("File has NOT been formed", RED_TEXT()));
+        else System.out.println("File has NOT been formed");
     }
 }
