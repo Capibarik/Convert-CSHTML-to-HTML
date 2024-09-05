@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.FileInputStream;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -14,8 +15,7 @@ public class LaunchHTML {
     public static void main(String[] args)
             throws IOException {
         // Текущий каталог: "Translate CSHTML to HTML"
-        String path_to_config = System.getenv("MyAppVar");
-        String[] ini_data = readDataIni(path_to_config);
+        String[] ini_data = readDataCmdLine(args);
         String path_to_file = translation(processedData(ini_data));
         String application = ini_data[3];
         boolean isExecuted = Boolean.parseBoolean(ini_data[4]);
@@ -30,6 +30,7 @@ public class LaunchHTML {
         String output_folder_path = in.nextLine();
         return new String[]{project_path, cshtml_file_name, output_folder_path};
     }
+    @Deprecated
     public static String[] readDataIni(String config_file_path)
             throws IOException {
         FileInputStream file_stream = new FileInputStream(config_file_path);
@@ -42,7 +43,14 @@ public class LaunchHTML {
         String isExecuted = p.getProperty("execute");
         return new String[]{project_path, cshtml_file_name, output_folder_path, application, isExecuted};
     }
-
+    public static String[] readDataCmdLine(String[] args) {
+        String project_path = args[0];
+        String cshtml_file_name = args[1];
+        String output_folder_path = args[2];
+        String application = args[3];
+        String isExecuted = args[4];
+        return new String[]{project_path, cshtml_file_name, output_folder_path, application, isExecuted};
+    }
     private static String[] processedData(String[] data_ini)
             throws FileNotFoundException {
         String project_path = data_ini[0];
