@@ -14,7 +14,8 @@ public class LaunchHTML {
     public static void main(String[] args)
             throws IOException {
         // Текущий каталог: "Translate CSHTML to HTML"
-        String[] ini_data = readDataIni("config.ini");
+        String path_to_config = System.getenv("MyAppVar");
+        String[] ini_data = readDataIni(path_to_config);
         String path_to_file = translation(processedData(ini_data));
         String application = ini_data[3];
         boolean isExecuted = Boolean.parseBoolean(ini_data[4]);
