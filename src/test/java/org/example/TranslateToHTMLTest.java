@@ -38,8 +38,8 @@ public class TranslateToHTMLTest {
         String path1_created_comparable = TranslateToHTML.createEmptyHTMLFile(layout_path, target_path1, out_folder_path);
         String path2_test_comparable = "src\\test\\resources\\TranslateToHTMLTest\\testWriteNewHTMLFile\\in\\_Layout+LoginForm.html";
         String path2_created_comparable = TranslateToHTML.createEmptyHTMLFile(layout_path, target_path2, out_folder_path);
-        // TranslateToHTML.writeNewHTMLFile(layout_path, target_path1, path1_created_comparable);
-        // TranslateToHTML.writeNewHTMLFile(layout_path, target_path2, path2_created_comparable);
+        TranslateToHTML.writeNewHTMLFile(layout_path, target_path1, path1_created_comparable);
+        TranslateToHTML.writeNewHTMLFile(layout_path, target_path2, path2_created_comparable);
         assertTrue(TestUtilities.compareFiles(path1_test_comparable, path1_created_comparable, false));
         assertTrue(TestUtilities.compareFiles(path2_test_comparable, path2_created_comparable, false));
         assertFalse(TestUtilities.compareFiles(path1_test_comparable, path1_created_comparable, true));

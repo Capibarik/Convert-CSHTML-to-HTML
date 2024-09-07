@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.io.FileInputStream;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Properties;
 import java.util.Scanner;
 

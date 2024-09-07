@@ -53,10 +53,18 @@ public class TranslateToHTML {
         Scanner layout_scanner = new Scanner(new File(layout_path)).useDelimiter("");
         PrintWriter out_file = new PrintWriter(out_file_path, StandardCharsets.UTF_8);
         StringBuffer barbecue = new StringBuffer();
-        String c;
+        String prev = "", c;
         boolean isLayoutClosed = false;
         while (layout_scanner.hasNext()) {
             c = layout_scanner.next();
+            if (c.equals("~")) {
+                prev = c;
+                continue;
+            }
+            if (prev.equals("~")) {
+                prev = c;
+                continue;
+            }
             barbecue.append(c);
             if (c.equals(">")) {
                 out_file.print(barbecue);
